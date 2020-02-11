@@ -1,0 +1,39 @@
+.main {
+  text-align: center;
+  padding: 5;
+}
+
+.container{
+  color: rgb(0, 0, 0);
+  text-shadow: 1px 4px 4px #585858;
+}
+
+p {
+  border-color: black;
+  border-width: 2px;
+  border-style: dashed;
+}
+
+.clock {
+  margin-bottom: 0cm;
+  font-family: Blink;
+  font-size: 0.7cm;
+  color: rgb(0, 0, 0);
+  text-shadow: 2px 2px 4px #919191;
+}
+
+.form-group {
+  text-align: left;
+}
+
+.addbutton {
+  padding: 0.5cm;
+}
+
+.card-img-top {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}
