@@ -12,8 +12,7 @@ const ProductList = (props) => {
                 <td>{props.data.stock}</td>
                 <td>{props.data.price}</td>
                 <td><img src={props.data.images} alt="" height= "50" width= "50"></img></td>
-                <td><button type="button" className="btn btn-outline-info" data-toggle="modal" onClick={() => props.update(props.data)} data-target="#ModalEdit"  >edit</button>
-                <button type="button" className="btn btn-outline-secondary"  data-toggle="modal" onClick={() => props.delete(props.data)} data-target="#ModalDelete">hapus</button>
+                <td><button type="button" className="btn btn-outline-info"  onClick={() => props.buy(props.data.id) }  >Buy</button>
                 <button type="button" className="btn btn-outline-secondary"  data-toggle="modal" onClick={() => props.detail(props.data)} data-target="#ModalDetail">Detail</button>
                 </td>
              </tr>

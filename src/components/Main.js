@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import HeadFoot from "./HeadFoot";
+// import HeadFoot from "./HeadFoot";
 import ProductList from "./ProductList";
 import "../styles/Main.css";
 import axios from 'axios';
-import Clock from 'react-live-clock';
+// import Clock from 'react-live-clock';
 
 const URL_PRODUCT_LIST = 'http://localhost:4000/api/product/getall'
 const URL_POST_CATEGORY = 'http://localhost:4000/api/category/insert'
@@ -17,6 +17,9 @@ const URL_DELETE_PRODUCT = 'http://localhost:4000/api/product/del'
 class Main extends Component {
   
   state = {
+
+    keyword : '',
+
     product: [],
     date : new Date(),
     category : {
@@ -246,7 +249,13 @@ class Main extends Component {
     })
    }
 
-
+    //SEARCH
+    onChangeSearch = (e) => {
+      const keyword = e.target.value
+      this.setState({
+        keyword : keyword
+      })
+    }
 
   componentDidMount() {
     this.getProduct();
@@ -254,17 +263,23 @@ class Main extends Component {
   
 
   render() {
-    return (
 
-        <div className="main">
-        <HeadFoot title="Kedai Kopi Kini"/>
-        <div className="clock">
-          <Clock format={'HH:mm:ss'} ticking={true} timezone={'Asia/Jakarta'} />
-        </div>
-        <HeadFoot title="Way Halim"/>
+    let filterProduct = this.state.product.filter((product)=>{
+      return product.name.toLowerCase().indexOf(this.state.keyword.toLowerCase()) !== -1;
+    })
+
+    return (
+      
+
+        <div className="main" >
+        
         <div className="addbutton">
+          <br></br>
         <button type="button" className="btn btn-outline-info" data-toggle="modal" data-target="#ModalAdd"  >Add Product</button>
         <button type="button" className="btn btn-outline-info" data-toggle="modal" data-target="#AddCategory"  >Add Category</button>
+        </div>
+        <div id="searching">
+        <input name="name" id="nama_barang" type="search" placeholder="Search product here.." onChange={this.onChangeSearch} />
         </div>
 
         {/* MODAL DETAIL */}
@@ -279,13 +294,25 @@ class Main extends Component {
                 <img class="card-img-top" src={this.state.detailProduct.images} alt="Card img cap" height= "350" width= "480"  ></img>
                 <div class="card-body">
                   <h4 class="card-title">Description</h4>
-                  <p class="card-text">{this.state.detailProduct.description}</p>
+                  <h5 class="card-title">{this.state.detailProduct.description}</h5>
                 </div>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">Category          : {this.state.detailProduct.category}</li>
-                  <li class="list-group-item">Item Remaining    : {this.state.detailProduct.stock}</li>
-                  <li class="list-group-item">Price             : {this.state.detailProduct.price}</li>
-                </ul>
+                <table className="table table-striped table-hover">
+                <tbody>
+                  
+                <tr>
+                  <td>Category</td>
+                  <td>{this.state.detailProduct.category}</td>
+                </tr>
+                <tr>
+                  <td>Item Remaining</td>
+                  <td>{this.state.detailProduct.stock}</td>
+                </tr>
+                <tr>
+                  <td>Price</td>
+                  <td>{this.state.detailProduct.price}</td>
+                </tr>
+                </tbody>
+                </table>
                 {/* <div class="card-body">
                   <a href="http://localhost:4000/uploads/2020-02-05T08:20:59.334Zamericano.jpeg" class="card-link">Card link</a>
                   <a href="http://localhost:4000/uploads/2020-02-05T08:20:59.334Zamericano.jpeg" class="card-link">Another link</a>
@@ -475,13 +502,16 @@ class Main extends Component {
 
 
 
-        <div className="container">  
+        <div className="container"> 
+        <div className="row">
+            <div className="col"> 
             <table className="table table-striped table-hover">
                 <thead>
                     <tr>
                     <th>No</th>
                     <th>Product Name</th>
                     <th>Category</th>
+                    <th>Stock</th>
                     <th>Price</th>
                     <th>Picture</th> 
                     <th></th>
@@ -489,7 +519,7 @@ class Main extends Component {
                 </thead>
                 <tbody>
                   
-                    {this.state.product.map(product =>{
+                    {filterProduct.map(product =>{
                         return<ProductList key={product.id} data={product} update={this.handleUpdate} delete={this.handleDelete} detail={this.handleDetail}/>
                         })}  
                          
@@ -497,8 +527,8 @@ class Main extends Component {
             </table>
         </div>
         </div>
-
-
+        </div>
+        </div>
     )
 
   }

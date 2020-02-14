@@ -3,17 +3,25 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
 import Main from './components/Main';
+import Order from './components/Order';
+import History from './components/HistoryOrder';
 import * as serviceWorker from './serviceWorker';
 import Profile from './components/profile'
 import { BrowserRouter as Router,  Route  } from "react-router-dom";
 
 
+
 class AppWithRouter extends React.Component{
+    
     render(){
         return(
+
+            
             <Router>
                 <Route path = "/" exact component = {App}/> {/*localhost:3000/*/}
-                <Route path = "/main" exact component = {Main} />               
+                <Route path = "/order" exact component = {Order} />  
+                <Route path = "/main" exact component = {Main} />            
+                <Route path = "/history" component = {History} />             
                 <Route path = "/profile" component = {Profile} />
             </Router>
         );
