@@ -403,15 +403,18 @@ class Main extends Component {
           )
           })}
           <br/>
-          <div class="total-order-title">Total PPN 10% IDR</div>
-          <div class="total-order">{this.state.cart.ppn}</div>
+          <div class="total-order-title-ppn">Total PPN 10% IDR</div>
+          <div class="total-order-ppn">{this.state.cart.ppn}</div>
           <br/>
           <br/>
-          <div class="total-order-title">Total IDR </div>
-          <div class="total-order">{this.state.cart.total_price_order}</div>
+          <div class="total-order-title-total">Total IDR </div>
+          <div class="total-order-total">{this.state.cart.total_price_order}</div>
           
-
+          <button className="checkout"> Checkout </button>
+          <button className="cancelcheckout"> Cancel </button>
+          
         </div>
+
 
         {/* END CART */}
 
