@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import ProductOrder from "./ProductOrder";
+// import ProductOrder from "./ProductOrder";
 import "../styles/Order.css";
 import axios from 'axios';
-import Clock from 'react-live-clock';
+// import Clock from 'react-live-clock';
+import "../styles/Cardproduct.css";
 
 const URL_PRODUCT_LIST = 'http://localhost:4000/api/product/getall'
 const URL_VIEW_CART = 'http://localhost:4000/api/cart/cartuser/1'
@@ -159,48 +160,64 @@ class Main extends Component {
     return (
        
 
-        <div className="main">      
-        <div className="clock">
-          <Clock format={'HH:mm:ss'} ticking={true} timezone={'Asia/Jakarta'} />
+        <div className="mainorder">      
+        {/* search */}
+        <div id="searchingorder">
+        <input name="name"  type="searchmain" placeholder="Search" onChange={this.onChangeSearch} />
         </div>
-        <div id="searching">
-        <input name="name"  type="search" placeholder="Search product here.." onChange={this.onChangeSearch} />
+
+        <div className="header-title-page-order">
+          Order
         </div>
 
         {/* CART */}      
-        <div class="shopping-cart">
-          <div class="shopping-cart-head">
-            <span class="product-quantity">{this.state.cart.total_item}</span> Product(s) in Cart
-          </div>
-          <table className="table table-striped table-hover">
-            <thead>
-                    <tr>
-                    <th>Qty</th>
-                    <th>Product Name</th>
-                    <th>Total Price</th>
-                    </tr>
-            </thead>
-            <tbody>
+        {/* <div className="shopping-cart"> */}
+          {/* <div className="shopping-cart-head"> */}
+            {/* <span className="product-quantity">{this.state.cart.total_item}</span> Product(s) in Cart */}
+          {/* </div> */}
+          {/* <table className="table table-striped table-hover"> */}
+            {/* <thead> */}
+                    {/* <tr> */}
+                    {/* <th>Qty</th> */}
+                    {/* <th>Product Name</th> */}
+                    {/* <th>Total Price</th> */}
+                    {/* </tr> */}
+            {/* </thead> */}
+            {/* <tbody> */}
           {/* <ul class="shopping-cart-list"> */}
-          {this.state.cart.product.map(product =>{
-           return <tr>
-            <td>{product.qty}</td>
-            <td>{product.product}</td>    
-            <td>{product.total_price}</td>
-           </tr>
-          })}
+          {/* {this.state.cart.product.map(product =>{ */}
+           {/* return <tr key="cart"> */}
+            {/* <td>{product.qty}</td> */}
+            {/* <td>{product.product}</td>     */}
+            {/* <td>{product.total_price}</td> */}
+           {/* </tr> */}
+          {/* })} */}
           {/* </ul> */}
-          </tbody>
-          </table>
+          {/* </tbody> */}
+          {/* </table> */}
           
 
-          <div class="cart-buttons">
-            <a href="#0" class="button empty-cart-btn">Empty</a>
-            <a href="#0" class="button cart-checkout">Checkout - <span class="total-price">{this.state.cart.total_price}</span></a>
-          </div>
-        </div>      
+          {/* <div className="cart-buttons"> */}
+            {/* <a href="#0" className="button empty-cart-btn">Empty</a> */}
+            {/* <a href="#0" className="button cart-checkout">Checkout - <span className="total-price">{this.state.cart.total_price}</span></a> */}
+          {/* </div> */}
+        {/* </div>       */}
 
         {/* END CART */}      
+
+        {/* <!-- CART DIV --> */}
+        <div class="cart-header">
+           <a className="cart-text-header" href="http://localhost:3000/order">Cart</a>
+        </div>
+        <div class="cart-side">
+          <a class="active" href="http://localhost:3000/main"><i class="fa fa-home"></i></a>
+          <a href="http://localhost:3000/order"><i class="fa fa-search"></i></a>
+          <a href="http://localhost:3000/history"><i class="fa fa-envelope"></i></a>
+        </div>
+
+
+
+
     
         {/* MODAL DETAIL */}
                 <div className="modal fade" id="ModalDetail" tabIndex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
@@ -210,11 +227,11 @@ class Main extends Component {
                   <h4 className="modal-title" id="myModalLabel">{this.state.detailProduct.name}</h4>
                   <button type="button" className="close" data-dismiss="modal" aria-hidden="true">^</button>
               </div>
-              <div class="card" >
-                <img class="card-img-top" src={this.state.detailProduct.images} alt="Card img cap" height= "350" width= "480"  ></img>
-                <div class="card-body">
-                  <h4 class="card-title">Description</h4>
-                  <h5 class="card-title">{this.state.detailProduct.description}</h5>
+              <div className="card" >
+                <img className="card-img-top" src={this.state.detailProduct.images} alt="Card img cap" height= "350" width= "480"  ></img>
+                <div className="card-body">
+                  <h4 className="card-title">Description</h4>
+                  <h5 className="card-title">{this.state.detailProduct.description}</h5>
                 </div>
                 <table className="table table-striped table-hover">
                 <tbody>
@@ -240,7 +257,45 @@ class Main extends Component {
         {/* END MODAL */}
 
 
-        <div className="container">
+        {/* card product */}
+
+        <div className="row">
+                    
+                    {filterProduct.map(product =>{
+                      return(
+                        
+                        <div className="col-4">
+      
+                        <div className="containercard" onClick={()=>this.handleDetail(product)} data-toggle="modal" data-target="#ModalDetail">
+                          <p>{product.name}</p>
+                        <img src={product.images} alt="" height= "320"></img>     
+                        <div className="overlay">
+       
+                        
+                                        
+                          <div className = "items"></div>
+                          <div className = "items head">
+                            <p>{product.name}</p>
+                            <hr/>
+                          </div>
+                          <div className = "items price">
+                            <p className="old">{product.stock}</p>
+                            <p className="new">IDR {product.price}</p>
+                          </div>
+                          <div className="items cart">
+                            <i className="fa fa-shopping-cart"></i>
+                            <span>ADD TO CART</span>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        )
+                      })}
+                    
+                  </div>
+
+
+        {/* <div className="container">
           <div className="row">
             <div className="col">
             <table className="table table-striped table-hover">
@@ -265,7 +320,7 @@ class Main extends Component {
               </table>
             </div>
             </div>
-          </div>
+          </div> */}
         </div>
     )
 

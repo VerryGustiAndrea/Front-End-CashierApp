@@ -1,0 +1,61 @@
+/* Add a black background color to the top navigation */
+.topnav {
+  position: fixed;
+  width: 1440px;
+  height: 60px;
+  left: 0px;
+  top: 0px;
+
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  z-index: 5;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    
+  float: left;
+  color: #000000;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* .topnav img {
+    float: left;
+    color: #000000;
+    text-align: center;
+    padding: 16px 16px;
+    text-decoration: none;
+    font-size: 17px;
+  } */
+
+/* Change the color of links on hover */
+
+/* vertical */
+.icon-bar {
+  position: fixed;
+  height: 924px;
+  left: 0px;
+  top: 61px;
+  width: 70px; /* Set a specific width */
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  z-index: 6;
+}
+
+.icon-bar a {
+  display: block; /* Make the links appear below each other instead of side-by-side */
+  text-align: center; /* Center-align text */
+  padding: 10px; /* Add some padding */
+  transition: all 0.3s ease; /* Add transition for hover effects */
+  color: rgb(0, 0, 0); /* White text color */
+  font-size: 36px; /* Increased font-size */
+}
+
+.icon-bar a:hover {
+  background-color: rgb(224, 224, 224); /* Add a hover color */
+}
+
+

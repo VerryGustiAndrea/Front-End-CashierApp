@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
 // import HeadFoot from "./HeadFoot";
-import ProductList from "./ProductList";
+// import ProductList from "./ProductList";
 import "../styles/Main.css";
+import "../styles/Cardproduct.css";
 import axios from 'axios';
 // import Clock from 'react-live-clock';
+import { Link } from "react-router-dom";
 
 const URL_PRODUCT_LIST = 'http://localhost:4000/api/product/getall'
 const URL_POST_CATEGORY = 'http://localhost:4000/api/category/insert'
 const URL_ADD_PRODUCT = 'http://localhost:4000/api/product/insert'
 const URL_EDIT_PRODUCT = 'http://localhost:4000/api/product/update'
 const URL_DELETE_PRODUCT = 'http://localhost:4000/api/product/del'
+const URL_VIEW_CART = 'http://localhost:4000/api/cart/cartuser'
+const URL_ADD_TO_CART = 'http://localhost:4000/api/cart/add'
+const URL_REDUCE_TO_CART = 'http://localhost:4000/api/cart/reduce'
+
+
 
 
 
@@ -71,11 +78,42 @@ class Main extends Component {
       images      :'',
       updated_at  : new Date(),
       category    :''
+    },
+
+    cart :{
+      invoice : 0,
+      cashier : '',
+      total_item : 0,
+      total_price : 0,
+      ppn : 0,
+      total_price_order: 0,
+      product : [{
+        invoice : 0,
+        cashier : '',
+        id_product : 0,
+        product : '',
+        price : 0,
+        category : '',
+        qty : 0,
+        total_price : ''
+      }]
     }
+
+    
+    
   };
 
 
-  
+  //CART
+
+  checkCart() {
+    axios.get( `${URL_VIEW_CART}/${localStorage.getItem('id_cashier')}`)
+    .then(res => {
+      const cart = res.data;
+      this.setState({ cart });
+      // console.log(this.state.cart)
+    })
+   }  
   
   //ADD CATEGORY 
   postCategory = () => {
@@ -100,7 +138,7 @@ class Main extends Component {
       console.log(e.target.name)
     };
 
-  handleSubmitCategory(e) {
+  handleSubmitCategory = (e) => {
     e.preventDefault();
     console.log(this.state.category.name)
     this.postCategory()
@@ -122,7 +160,7 @@ class Main extends Component {
     fs.set('updated_at',new Date())
    
     axios.post(URL_ADD_PRODUCT, fs)
-        .then(response => this.getProduct())
+        .then(response => this.getProduct(),this.resetState())
         .catch(err => console.log(err));
   };
 
@@ -257,7 +295,45 @@ class Main extends Component {
       })
     }
 
+    resetState = () => {
+      this.setState({productAdd :{
+        name : '',
+        id_category : 0,
+        description : '',
+        stock       : 0,
+        price       : 0,
+        images      :'',
+        created_at  : new Date(),
+        updated_at  : new Date()
+      } });
+   }
+
+   handleAddToCart= (data) => {
+     console.log('tes')
+
+      let item = {
+        id_product : data,
+        qty : 1
+      }      
+      axios.post(`${URL_ADD_TO_CART}/${localStorage.getItem('id_cashier')}`, item )
+      .then(()=> this.checkCart())
+      .catch(err => console.log(err));
+    };
+
+    handleReduceToCart= (data) => {
+      console.log('tes')
+ 
+       let item = {
+         id_product : data,
+         qty : 1
+       }      
+       axios.post(`${URL_REDUCE_TO_CART}/${localStorage.getItem('id_cashier')}`, item )
+       .then(()=> this.checkCart())
+       .catch(err => console.log(err));
+     };
+ 
   componentDidMount() {
+    this.checkCart();
     this.getProduct();
   };
   
@@ -271,27 +347,84 @@ class Main extends Component {
     return (
       
 
-        <div className="main" >
-        
+        <div className="mainmain" >
+{/*         
         <div className="addbutton">
-          <br></br>
         <button type="button" className="btn btn-outline-info" data-toggle="modal" data-target="#ModalAdd"  >Add Product</button>
         <button type="button" className="btn btn-outline-info" data-toggle="modal" data-target="#AddCategory"  >Add Category</button>
+        </div> */}
+
+        {/* search */}
+        <div id="searchingmain">
+        <input name="name"  type="searchmain" placeholder="Search" onChange={this.onChangeSearch} />
         </div>
-        <div id="searching">
-        <input name="name" id="nama_barang" type="search" placeholder="Search product here.." onChange={this.onChangeSearch} />
+        {/* title menu */}
+        <div className="header-title-page-main">
+          Food Items
         </div>
+        
+
+        {/* CART */}
+        <div class="cart-header">
+           <Link to="" className="cart-text-header">Cart {this.state.cart.total_item}</Link>
+        </div>
+        <div class="cart-side">
+        {/* list cart */}
+        {this.state.cart.product.map(cart =>{
+          return(
+          <div class="item">
+            <div class="buttons">
+              <span class="delete-btn"></span>
+            </div>
+            <div class="image">
+            <img src={cart.images} width="88" height="80" alt="" />
+
+            </div>
+
+            <div class="description">
+              <span>{cart.product}</span>
+              <span></span>
+              <span>  @{cart.price}</span>
+            </div>
+
+            <div class="quantity">
+              <button class="btn-cart" type="button" name="button" onClick={() => this.handleAddToCart(cart.id_product)}>
+                
+                <img src="https://designmodo.com/demo/shopping-cart/plus.svg" alt=""  />
+              </button>
+              <input type="text" name="name" value={cart.qty}/>
+              <button class="btn-cart" type="button" name="button" onClick={() => this.handleReduceToCart(cart.id_product)}>
+                <img src="https://designmodo.com/demo/shopping-cart/minus.svg" alt="" />
+              </button>
+            </div>
+            <div class="total-price">{cart.total_price}</div>
+          </div>
+          
+          )
+          })}
+          <br/>
+          <div class="total-order-title">Total PPN 10% IDR</div>
+          <div class="total-order">{this.state.cart.ppn}</div>
+          <br/>
+          <br/>
+          <div class="total-order-title">Total IDR </div>
+          <div class="total-order">{this.state.cart.total_price_order}</div>
+          
+
+        </div>
+
+        {/* END CART */}
 
         {/* MODAL DETAIL */}
                 <div className="modal fade" id="ModalDetail" tabIndex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
             <div className="modal-dialog">
             <div className="modal-content">
-              <div className="modal-header">                
+              <div className="modal-header">              
                   <h4 className="modal-title" id="myModalLabel">{this.state.detailProduct.name}</h4>
                   <button type="button" className="close" data-dismiss="modal" aria-hidden="true">^</button>
               </div>
               <div class="card" >
-                <img class="card-img-top" src={this.state.detailProduct.images} alt="Card img cap" height= "350" width= "480"  ></img>
+                <img class="card-img-top" src={this.state.detailProduct.images} alt="Card img cap" height= "200" width= "250" ></img>
                 <div class="card-body">
                   <h4 class="card-title">Description</h4>
                   <h5 class="card-title">{this.state.detailProduct.description}</h5>
@@ -342,7 +475,7 @@ class Main extends Component {
                 </div>
                 <div className="modal-footer">
                     <button className="btn btn-outline-info" data-dismiss="modal" aria-hidden="true">Tutup</button>
-                    <button className="btn btn-info" id="button-submit" data-dismiss="modal" onClick={this.handleSubmitCategory.bind(this)} >Simpan</button>
+                    <button className="btn btn-info" id="button-submit" data-dismiss="modal" onClick={this.handleSubmitCategory} >Simpan</button>
                 </div>
             </form>
             </div>
@@ -364,7 +497,7 @@ class Main extends Component {
                     <div className="form-group">
                         <label className="control-label col-xs-3" >Product</label>
                         <div className="col-xs-9">
-                            <input name="name" id="nama_barang" className="form-control" type="text" placeholder="Name of product" value={this.state.productAdd.name}  onChange={this.onChangeStateAddProduct}  required/>
+                            <input name="name" id="nama_barang" className="form-control" type="text" placeholder="Name of product" value={this.state.productAdd.name}  onChange={this.onChangeStateAddProduct}/>
                         </div>
                     </div>
                     <div className="form-group">
@@ -381,7 +514,7 @@ class Main extends Component {
                     <div className="form-group">
                         <label className="control-label col-xs-3" >Description</label>
                         <div className="col-xs-9">
-                            <input name="description" id="nama_barang" className="form-control" type="text" placeholder="Description of product" value={this.state.productAdd.description}  onChange={this.onChangeStateAddProduct} required/>
+                            <input name="description" id="nama_barang" className="form-control" type="text" placeholder="Description of product" value={this.state.productAdd.description}  onChange={this.onChangeStateAddProduct}/>
                         </div>
                     </div>
                     <div className="form-group">
@@ -500,9 +633,49 @@ class Main extends Component {
 
         {/* END MODAL DELETE */}
 
+        {/* card product */}
 
+          <div className="row">
+                    
+              {filterProduct.map(product =>{
+                return(
+                  
+                  <div className="col-4">
 
-        <div className="container"> 
+                  <div className="containercard" >
+
+                  <img src={product.images} alt=""></img>     
+                  <div className="overlay" onClick={() => this.handleAddToCart(product.id)}>
+ 
+                  
+                                  
+                    <div className = "items"></div>
+                    <div className = "items head">
+                      <p>{product.name}</p>
+                      <hr/>
+                    </div>
+                    <div className = "items price">
+                      <p className="old">{product.stock}</p>
+                      <p className="new">IDR {product.price}</p>
+                    </div>
+                    <div className="items cart">
+                      <i className="fa fa-shopping-cart"></i>
+                      <span>ADD TO CART</span>
+                  </div>
+                  </div>  
+
+                  <p data-toggle="modal" data-target="#ModalDetail" onClick={()=>this.handleDetail(product)}>{product.name}<br/> IDR. {product.price}</p> 
+                                 
+                  </div>
+
+                  </div>
+                  )
+                })}
+              
+            </div>
+
+        {/*  */}
+        {/* <div className="container"> 
         <div className="row">
             <div className="col"> 
             <table className="table table-striped table-hover">
@@ -527,7 +700,7 @@ class Main extends Component {
             </table>
         </div>
         </div>
-        </div>
+        </div> */}
         </div>
     )
 

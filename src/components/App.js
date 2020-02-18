@@ -7,12 +7,13 @@ import axios from 'axios'
 
 
 
-export default class PersonList extends Component {
+class Login extends Component {
   state = {
     persons: []
   }
 
   componentDidMount() {
+    console.log(process.env.REACT_APP_URL)
     axios.get(`https://jsonplaceholder.typicode.com/users`)
       .then(res => {
         const persons = res.data;
@@ -25,11 +26,12 @@ export default class PersonList extends Component {
 
       <div className="main">
         <HeadFoot title="Kedai Kopi Kini"/>
+        
         <p>
           lorem bla blaa
         </p>
 
-        { this.state.persons.map(person => <li>{person.name}</li>)}
+        {/* { this.state.persons.map(person => <li>{person.name}</li>)} */}
         <HeadFoot title="Footer"/>
       </div>
 
@@ -47,4 +49,4 @@ export default class PersonList extends Component {
 //   city : "Depok"
 // };
 
-// export default HelloMessage;
+export default Login;

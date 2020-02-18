@@ -1,21 +1,23 @@
 .main {
       margin-top: 3cm;
       text-align: center;
+      width: 1350px;
       padding: 5;
     }
     .addbutton{
       margin-top: 3cm;
+      
     }
     
     .container{
       color: rgb(0, 0, 0);
-      text-shadow: 1px 4px 4px #585858;
+      /* text-shadow: 1px 4px 4px #585858; */
     }
     
     p {
       border-color: black;
       border-width: 2px;
-      border-style: dashed;
+      
     }
     
     .clock {

@@ -1,0 +1,111 @@
+body {
+    /* background-color: #FEF5DF; */
+  }
+  
+  .containercard {
+    
+    width: 250px;
+    height: 200px;
+    padding: 0px;
+    margin-left: 7% ;
+
+    cursor: pointer;
+    -webkit-box-shadow: 0 0 5px #000;
+    box-shadow: 0 0 5px #000;
+    z-index: 1;
+    margin-bottom: 2cm
+  }
+  .containercard img {
+    width: 250px;
+    height: 200px;
+    z-index: 1;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0px;
+    width: 250px;
+    height: 200px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 2fr 2fr 1fr;
+    background: rgba(77, 77, 77, 0.9);
+    color: #FEF5DF;
+    opacity: 0;
+    transition: all 0.5s;
+    font-family: 'Playfair Display', serif;
+    z-index: 2;
+  }
+  
+  .items {
+    padding-left: 0px;
+    letter-spacing: 10px;
+    
+  }
+  
+  .head {
+    font-size: 22px;
+    line-height: 20px;
+    transform: translateY(40px);
+    transition: all 0.7s;
+  }
+  .head hr {
+    display: block;
+    width: 0;
+    border: none;
+    border-bottom: solid 2px #FEF5DF;
+    position: absolute;
+    bottom: 0;
+    left: 0px;
+    transition: all .5s;
+  }
+  
+  .price {
+    font-size: 18px;
+    line-height: 10px;
+    font-weight: bold;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.7s;
+  }
+  .price .old {
+    text-decoration: line-through;
+    color: #b3b3b3;
+  }
+  
+  .cart {
+    font-size: 12px;
+    opacity: 0;
+    letter-spacing: 1px;
+    font-family: 'Lato', sans-serif;
+    transform: translateY(40px);
+    transition: all 0.7s;
+  }
+  .cart i {
+    font-size: 16px;
+  }
+  .cart span {
+    margin-left: 10px;
+  }
+  
+  .containercard:hover .overlay {
+    opacity: 1;
+  }
+  .containercard:hover .overlay .head {
+    transform: translateY(0px);
+  }
+  .containercard:hover .overlay hr {
+    width: 125px;
+    transition-delay: 0.4s;
+  }
+  .containercard:hover .overlay .price {
+    transform: translateY(0px);
+    transition-delay: 0.3s;
+    opacity: 1;
+  }
+  .containercard:hover .overlay .cart {
+    transform: translateY(0px);
+    transition-delay: 0.6s;
+    opacity: 1;
+  }
+  

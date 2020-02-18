@@ -1,7 +1,9 @@
-.main {
+.mainorder {
   margin-top: 3cm;
   text-align: center;
   padding: 5;
+
+  width: 940px;
 }
 .addbutton{
   margin-top: 3cm;
@@ -9,17 +11,12 @@
 
 .container{
   color: rgb(0, 0, 0);
-  text-shadow: 1px 4px 4px #585858;
+  /* text-shadow: 1px 4px 4px #585858; */
 }
 
-p {
-  border-color: black;
-  border-width: 2px;
-  border-style: dashed;
-}
 
 .clock {
-  margin-top: 4cm;
+
   margin-bottom: 1cm;
   font-family: Blink;
   font-size: 0.7cm;
@@ -44,22 +41,82 @@ p {
 }
 
 /* search */
-input[type=search] {
-  background-color: #e0dede;
-  width: 500px;
-  margin-bottom:  30px;
-  -webkit-transition: width 0.8s ease-in-out;
-  transition: width 0.8s ease-in-out;
+input[type=searchorder] {
+  width: 270px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 9px 20px 9px 40px;
+  -webkit-transition: width 0.4s ease-in-out;
+  transition: width 0.4s ease-in-out;
 }
 
-/* When the input field gets focus, change its width to 100% */
-input[type=search]:focus {
-  width: 55%;
+input[type=searchorder]:focus {
+  width: 100%;
+}
+
+#searchingorder{
+  position: fixed;
+  top:6px;
+  z-index: 6;
+  right: 360px;
+}
+
+
+
+.cart-header {
+
   
-  
+  position: fixed;
+  width: 350px;
+  height: 60px;
+  right: 0px;
+  top: 0px;
+  /* width: 70px; Set a specific width */
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(31, 31, 31, 0.25);
+  z-index: 21;
 }
 
-#searching{
-  border-top: 100;
+.cart-text-header {
+  font-family: Airbnb Cereal App;
+  font-size: 22px;
+  line-height: 58px;  
+  color: #000000;
+}
+.cart-side {
+  position: fixed;
+  height: 924px;
+  width: 350px;
+  right: 0px;
+  top: 60px;
+  /* width: 70px; Set a specific width */
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
 }
 
+.icon-bar a {
+  display: block; /* Make the links appear below each other instead of side-by-side */
+  text-align: center; /* Center-align text */
+  padding: 16px; /* Add some padding */
+  transition: all 0.3s ease; /* Add transition for hover effects */
+  color: rgb(0, 0, 0); /* White text color */
+  font-size: 36px; /* Increased font-size */
+}
+
+.icon-bar a:hover {
+  background-color: rgb(224, 224, 224); /* Add a hover color */
+}
+
+
+.header-title-page-order {
+  position: fixed;
+  top :0;
+  left: 500px;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 22px;
+  line-height: 58px;  
+  color: #000000;
+  z-index: 6;
+}
