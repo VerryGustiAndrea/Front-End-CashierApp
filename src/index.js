@@ -9,7 +9,6 @@ import Login from "./components/Login";
 import * as serviceWorker from "./serviceWorker";
 import Profile from "./components/profile";
 import { BrowserRouter as Router, Route , Link } from "react-router-dom";
-
 import { Provider } from "react-redux";
 import store from "./redux/store";
 

@@ -7,14 +7,23 @@ import axios from 'axios';
 // import Clock from 'react-live-clock';
 import { Link } from "react-router-dom";
 
-const URL_PRODUCT_LIST = 'http://localhost:4000/api/product/getall'
+import { connect } from "react-redux";
+import { getAllProduct , viewCart} from "../redux/action/product";
+
+
+
+
+
+// const URL_PRODUCT_LIST = 'http://localhost:4000/api/product/getall'
 const URL_POST_CATEGORY = 'http://localhost:4000/api/category/insert'
 const URL_ADD_PRODUCT = 'http://localhost:4000/api/product/insert'
 const URL_EDIT_PRODUCT = 'http://localhost:4000/api/product/update'
 const URL_DELETE_PRODUCT = 'http://localhost:4000/api/product/del'
-const URL_VIEW_CART = 'http://localhost:4000/api/cart/cartuser'
+// const URL_VIEW_CART = 'http://localhost:4000/api/cart/cartuser'
 const URL_ADD_TO_CART = 'http://localhost:4000/api/cart/add'
 const URL_REDUCE_TO_CART = 'http://localhost:4000/api/cart/reduce'
+const URL_CHECKOUT_CART = 'http://localhost:4000/api/cart/checkout'
+
 
 
 
@@ -106,13 +115,20 @@ class Main extends Component {
 
   //CART
 
-  checkCart() {
-    axios.get( `${URL_VIEW_CART}/${localStorage.getItem('id_cashier')}`)
-    .then(res => {
-      const cart = res.data;
-      this.setState({ cart });
-      // console.log(this.state.cart)
-    })
+  checkCart= async()=>{
+    await this.props.dispatch(viewCart())
+    this.setState({
+      cart: this.props.product.cart
+    });
+
+
+
+    // axios.get( `${URL_VIEW_CART}/${localStorage.getItem('id_cashier')}`)
+    // .then(res => {
+    //   const cart = res.data;
+    //   this.setState({ cart });
+    //   // console.log(this.state.cart)
+    // })
    }  
   
   //ADD CATEGORY 
@@ -279,12 +295,11 @@ class Main extends Component {
 
 
    //GET UPRODUCT
-   getProduct() {
-    axios.get(URL_PRODUCT_LIST)
-    .then(res => {
-      const product = res.data;
-      this.setState({ product });
-    })
+   getProduct = async() =>{
+    await this.props.dispatch(getAllProduct())
+    this.setState({
+      product: this.props.product.productData
+    });
    }
 
     //SEARCH
@@ -331,6 +346,15 @@ class Main extends Component {
        .then(()=> this.checkCart())
        .catch(err => console.log(err));
      };
+
+
+
+   handleCheckoutCart= () => {
+
+     axios.post(`${URL_CHECKOUT_CART}/${localStorage.getItem('id_cashier')}`)
+     .then(()=> this.checkCart())
+     .catch(err => console.log(err));
+   };  
  
   componentDidMount() {
     this.checkCart();
@@ -410,7 +434,7 @@ class Main extends Component {
           <div class="total-order-title-total">Total IDR </div>
           <div class="total-order-total">{this.state.cart.total_price_order}</div>
           
-          <button className="checkout"> Checkout </button>
+          <button className="checkout" onClick={() => this.handleCheckoutCart()}> Checkout </button>
           <button className="cancelcheckout"> Cancel </button>
           
         </div>
@@ -649,9 +673,6 @@ class Main extends Component {
 
                   <img src={product.images} alt=""></img>     
                   <div className="overlay" onClick={() => this.handleAddToCart(product.id)}>
- 
-                  
-                                  
                     <div className = "items"></div>
                     <div className = "items head">
                       <p>{product.name}</p>
@@ -665,7 +686,10 @@ class Main extends Component {
                       <i className="fa fa-shopping-cart"></i>
                       <span>ADD TO CART</span>
                   </div>
-                  </div>  
+                  </div>
+                  {/* <button type="button" className="btn btn-outline-info" data-toggle="modal" onClick={() => this.handleUpdate(product)} data-target="#ModalEdit"  >edit</button>
+                  <button type="button" className="btn btn-outline-secondary"  data-toggle="modal" onClick={() => this.handleDelete(product)} data-target="#ModalDelete">hapus</button>
+                     */}
 
                   <p data-toggle="modal" data-target="#ModalDetail" onClick={()=>this.handleDetail(product)}>{product.name}<br/> IDR. {product.price}</p> 
                                  
@@ -711,4 +735,10 @@ class Main extends Component {
   
 }
 
-export default Main;
+const mapStateToProps = ({  product }) => {
+  return {
+    product
+  };
+};
+
+export default connect(mapStateToProps)(Main);

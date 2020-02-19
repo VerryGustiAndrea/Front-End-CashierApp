@@ -69,6 +69,7 @@ input[type=searchmain]:focus {
 
 *{
   box-sizing: border-box;
+  
 }
 
 
@@ -97,10 +98,14 @@ input[type=searchmain]:focus {
   padding: 0.25em 0.5em;
   height: 7.5em;
   display: flex;
+  /* overflow: scroll; */
+
+
 }
 .item:nth-child(3) {
   border-top: 1px solid #E1E8EE;
   border-bottom: 1px solid #E1E8EE;
+  
 }
 
 .buttons{
@@ -266,22 +271,25 @@ input:focus{
 }
 
 .checkout{
-border-radius: 8px;
-position: fixed;
-width: 300px;
-right: 25px;
-bottom: 60px;
-z-index: 6;
-height: 35px;
-background: #57CAD5;
-font-family: Verdana, Geneva, Tahoma, sans-serif;
-font-size: 18px;
-line-height: 33px;
-color: #FFFFFF;
+
+  cursor: pointer;
+  border-radius: 8px;
+  position: fixed;
+  width: 300px;
+  right: 25px;
+  bottom: 60px;
+  z-index: 6;
+  height: 35px;
+  background: #57CAD5;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 18px;
+  line-height: 33px;
+  color: #FFFFFF;
 }
 
 
 .cancelcheckout{
+  cursor: pointer;
   border-radius: 8px;
   position: fixed;
   width: 300px;

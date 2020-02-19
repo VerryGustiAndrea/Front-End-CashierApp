@@ -2,12 +2,12 @@
 //menggunakan combineReducers
 
 import { combineReducers } from "redux";
-import countReducer from "./count";
-import usersReducer from "./users";
+import historyReducer from "./history";
+import productReducer from "./product";
 
 const reducers = combineReducers({
-  count: countReducer,
-  users : usersReducer
+  product: productReducer,
+  history: historyReducer
 });
 
 export default reducers;

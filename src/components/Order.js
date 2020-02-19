@@ -7,6 +7,7 @@ import "../styles/Cardproduct.css";
 
 const URL_PRODUCT_LIST = 'http://localhost:4000/api/product/getall'
 const URL_VIEW_CART = 'http://localhost:4000/api/cart/cartuser/1'
+const URL_EDIT_PRODUCT = 'http://localhost:4000/api/product/update'
 const URL_BUY_PRODUCT = 'http://localhost:4000/api/cart/add/1'
 
 
@@ -69,6 +70,18 @@ class Main extends Component {
     images      :'',
     updated_at  : new Date(),
     category    :''
+  },
+
+  productEdit : {
+    id : 0,
+    name : '',
+    id_category : 0,
+    description : '',
+    stock       : 0,
+    price       : 0,
+    images      :'',
+    updated_at  : new Date()
+    
   },
 
   
@@ -145,6 +158,64 @@ class Main extends Component {
         keyword : keyword
       })
     }
+
+
+    //UPDATE DELETE
+
+ 
+   //EDIT PRODUCT
+   handleUpdate = (data) => {
+    let update = {...data}
+    console.log(update)
+    this.setState({
+      productEdit : update
+    })
+  }
+
+  editProduct = () => {
+    let u = new FormData()
+    u.set('name',this.state.productEdit.name)
+    u.set('id_category',this.state.productEdit.id_category)
+    u.set('description',this.state.productEdit.description)
+    u.set('stock',this.state.productEdit.stock)
+    u.set('price',this.state.productEdit.price)   
+    u.append('images',this.state.productEdit.images)
+   
+    axios.patch(`${URL_EDIT_PRODUCT}/${this.state.productEdit.id}`, u)
+        .then(response => this.getProduct())
+        .catch(err => console.log(err));
+  };
+
+  onChangeStateEditProduct = (e) => {
+    let productEditNew = this.state.productEdit;
+    productEditNew[e.target.name] = e.target.value;     
+    e.preventDefault();
+    console.log(e.target.value);
+    this.setState(
+      {
+        productEdit : productEditNew
+      }  
+    );
+  };
+
+  onChangeStateFileUploadEdit = (e) => {
+    let productEditNew = this.state.productEdit;
+    productEditNew[e.target.name] = e.target.files[0];    
+    e.preventDefault();
+    console.log(e.target.files[0]);
+    this.setState(
+      {
+        productEdit : productEditNew
+      }  
+    );
+  };
+
+  handleSubmitEditProduct = (e) =>{
+    console.log(this.state.productEdit)
+    e.preventDefault();
+    this.editProduct();
+   };
+
 
 
     componentDidMount() {
@@ -287,6 +358,9 @@ class Main extends Component {
                             <span>ADD TO CART</span>
                         </div>
                         </div>
+                        <td><button type="button" className="btn btn-outline-info" data-toggle="modal" onClick={() => this.handleUpdate(product)} data-target="#ModalEdit"  >edit</button>
+                      <button type="button" className="btn btn-outline-secondary"  data-toggle="modal" onClick={() => this.handleDelete(product)} data-target="#ModalDelete">hapus</button>
+                        </td>  
                         </div>
                         </div>
                         )
